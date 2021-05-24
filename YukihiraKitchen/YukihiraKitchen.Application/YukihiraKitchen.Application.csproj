@@ -4,4 +4,9 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\YukihiraKitchen.Domain\YukihiraKitchen.Domain.csproj" />
+    <ProjectReference Include="..\YukihiraKitchen.Persistence\YukihiraKitchen.Persistence.csproj" />
+  </ItemGroup>
+
 </Project>

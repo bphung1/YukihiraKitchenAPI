@@ -11,14 +11,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using YukihiraKitchen.API.Extensions;
+using YukihiraKitchen.Persistence;
 
 namespace YukihiraKitchen.API
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IConfiguration _config;
+
+        public Startup(IConfiguration config)
         {
-            Configuration = configuration;
+            _config = config;
         }
 
         public IConfiguration Configuration { get; }
@@ -28,14 +32,11 @@ namespace YukihiraKitchen.API
         {
 
             services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "YukihiraKitchen.API", Version = "v1" });
-            });
+            services.AddApplicationServices(_config);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataContext context)
         {
             if (env.IsDevelopment())
             {
@@ -49,6 +50,8 @@ namespace YukihiraKitchen.API
             app.UseRouting();
 
             app.UseAuthorization();
+
+            DataSeeding.SeedData(context).Wait();
 
             app.UseEndpoints(endpoints =>
             {
