@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using YukihiraKitchen.API.Extensions;
+using YukihiraKitchen.API.Middleware;
 using YukihiraKitchen.Persistence;
 
 namespace YukihiraKitchen.API
@@ -38,6 +39,9 @@ namespace YukihiraKitchen.API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataContext context)
         {
+            //custom exception middleware
+            app.UseMiddleware<ExceptionMiddleware>();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

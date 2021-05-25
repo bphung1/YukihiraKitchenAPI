@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using YukihiraKitchen.Application.Recipes;
 using YukihiraKitchen.Domain;
 
 namespace YukihiraKitchen.Application.Core
@@ -13,6 +14,8 @@ namespace YukihiraKitchen.Application.Core
         public MappingProfile()
         {
             CreateMap<Recipe, Recipe>();
+            //CreateMap<Recipe, RecipeDto>()
+            //    .ForMember(d => d.Id)
         }
     }
 }
