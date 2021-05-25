@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\YukihiraKitchen.Domain\YukihiraKitchen.Domain.csproj" />
     <ProjectReference Include="..\YukihiraKitchen.Persistence\YukihiraKitchen.Persistence.csproj" />
   </ItemGroup>
