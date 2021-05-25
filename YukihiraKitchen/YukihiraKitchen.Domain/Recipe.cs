@@ -13,6 +13,7 @@ namespace YukihiraKitchen.Domain
         public string Description { get; set; }
         public int CookingDuration { get; set; }
         public int Temperature { get; set; }
+        public Photo Photo { get; set; }
 
         public ICollection<Direction> Directions { get; set; } = new List<Direction>();
         public ICollection<RecipeIngredient> RecipeIngredients { get; set; } = new List<RecipeIngredient>();
