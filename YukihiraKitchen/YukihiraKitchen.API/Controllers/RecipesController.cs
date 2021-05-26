@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using YukihiraKitchen.Application.Recipes;
+using YukihiraKitchen.Domain;
 
 namespace YukihiraKitchen.API.Controllers
 {
@@ -18,6 +19,12 @@ namespace YukihiraKitchen.API.Controllers
         public async Task<IActionResult> GetRecipe(Guid id)
         {
             return HandleResult(await Mediator.Send(new Details.Query { Id = id}));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateRecipe(Recipe recipe)
+        {
+            return HandleResult(await Mediator.Send(new Create.Command { Recipe = recipe }));
         }
     }
 }
