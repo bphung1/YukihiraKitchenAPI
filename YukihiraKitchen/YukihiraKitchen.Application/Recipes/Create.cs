@@ -38,10 +38,6 @@ namespace YukihiraKitchen.Application.Recipes
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                //var ingredient = new RecipeIngredient
-                //{
-                //    Recipe = request.Recipe,
-                //};
 
                 _context.Recipes.Add(request.Recipe);
 

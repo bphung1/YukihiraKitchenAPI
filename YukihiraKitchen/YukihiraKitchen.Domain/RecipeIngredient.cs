@@ -13,6 +13,6 @@ namespace YukihiraKitchen.Domain
         public Ingredient Ingredient { get; set; }
         public int IngredientId { get; set; }
         public int IngredientQuantity { get; set; }
-        public int IngredientMeasurement { get; set; }
+        public string IngredientMeasurement { get; set; }
     }
 }

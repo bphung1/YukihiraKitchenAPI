@@ -26,5 +26,11 @@ namespace YukihiraKitchen.API.Controllers
         {
             return HandleResult(await Mediator.Send(new Create.Command { Recipe = recipe }));
         }
+
+        [HttpPost("{id}/addRecipeIngredient")]
+        public async Task<IActionResult> AddRecipeIngredient(Guid id, RecipeIngredientParam ingredientParam)
+        {
+            return HandleResult(await Mediator.Send(new UpdateRecipe.Command { Id = id, Param = ingredientParam}));
+        }
     }
 }

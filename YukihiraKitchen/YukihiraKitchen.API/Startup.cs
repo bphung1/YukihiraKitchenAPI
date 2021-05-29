@@ -1,3 +1,4 @@
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -13,6 +14,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using YukihiraKitchen.API.Extensions;
 using YukihiraKitchen.API.Middleware;
+using YukihiraKitchen.Application.Recipes;
 using YukihiraKitchen.Persistence;
 
 namespace YukihiraKitchen.API
@@ -32,7 +34,12 @@ namespace YukihiraKitchen.API
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+            services.AddControllers()
+                .AddFluentValidation(config =>
+                {
+                    config.RegisterValidatorsFromAssemblyContaining<Create>();
+                    config.RegisterValidatorsFromAssemblyContaining<UpdateRecipe>();
+                });
             services.AddApplicationServices(_config);
         }
 

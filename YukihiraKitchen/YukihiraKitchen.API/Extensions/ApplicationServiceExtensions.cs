@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using YukihiraKitchen.Application.Core;
 using YukihiraKitchen.Application.Recipes;
 using YukihiraKitchen.Persistence;
 
@@ -26,6 +27,7 @@ namespace YukihiraKitchen.API.Extensions
                 options.UseSqlServer(config.GetConnectionString("DefaultConnection")));
 
             services.AddMediatR(typeof(List.Handler).Assembly);
+            services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
             return services;
         }
