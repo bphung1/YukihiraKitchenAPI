@@ -18,7 +18,7 @@ namespace YukihiraKitchen.API.Controllers
         [HttpGet("{id}")] // recipes/id
         public async Task<IActionResult> GetRecipe(Guid id)
         {
-            return HandleResult(await Mediator.Send(new Details.Query { Id = id}));
+            return HandleResult(await Mediator.Send(new Details.Query { Id = id }));
         }
 
         [HttpPost]
@@ -30,7 +30,21 @@ namespace YukihiraKitchen.API.Controllers
         [HttpPost("{id}/addRecipeIngredient")]
         public async Task<IActionResult> AddRecipeIngredient(Guid id, RecipeIngredientParam ingredientParam)
         {
-            return HandleResult(await Mediator.Send(new UpdateRecipe.Command { Id = id, Param = ingredientParam}));
+            return HandleResult(await Mediator.Send(new AddRecipeIngredient.Command { Id = id, Param = ingredientParam }));
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> EditRecipe(Guid id, Recipe recipe)
+        {
+            recipe.Id = id;
+
+            return HandleResult(await Mediator.Send(new Edit.Command { Recipe = recipe }));
+        }
+
+        [HttpDelete("{id}/removeIngredient")]
+        public async Task<IActionResult> RemoveRecipeIngredient(Guid id, string ingredientName)
+        {
+            return HandleResult(await Mediator.Send(new RemoveRecipeIngredient.Command { Id = id, IngredientName = ingredientName }));
         }
     }
 }

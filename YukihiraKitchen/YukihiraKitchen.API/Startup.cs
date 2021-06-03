@@ -38,7 +38,7 @@ namespace YukihiraKitchen.API
                 .AddFluentValidation(config =>
                 {
                     config.RegisterValidatorsFromAssemblyContaining<Create>();
-                    config.RegisterValidatorsFromAssemblyContaining<UpdateRecipe>();
+                    config.RegisterValidatorsFromAssemblyContaining<AddRecipeIngredient>();
                 });
             services.AddApplicationServices(_config);
         }
