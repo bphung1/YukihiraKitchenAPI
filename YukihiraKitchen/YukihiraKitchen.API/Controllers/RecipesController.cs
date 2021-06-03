@@ -46,5 +46,11 @@ namespace YukihiraKitchen.API.Controllers
         {
             return HandleResult(await Mediator.Send(new RemoveRecipeIngredient.Command { Id = id, IngredientName = ingredientName }));
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> RemoveRecipe(Guid id)
+        {
+            return HandleResult(await Mediator.Send(new Delete.Command { Id = id }));
+        }
     }
 }

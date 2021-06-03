@@ -58,6 +58,9 @@ namespace YukihiraKitchen.Application.Recipes
                 var containsIngredient = recipe.RecipeIngredients
                     .FirstOrDefault(ri => ri.Ingredient == ingredient);
 
+                if (containsIngredient != null)
+                    return Result<Unit>.Failure("Recipe already has this ingredient");
+
                 if (containsIngredient == null)
                 {
                     containsIngredient = new RecipeIngredient
