@@ -10,6 +10,8 @@ namespace YukihiraKitchen.API.Controllers
     public class BaseAPIController : Controller
     {
         private IMediator _mediator;
+
+        //if _mediator is null, assign Mediator to whatever is to the right of ??=
         protected IMediator Mediator => _mediator ??= HttpContext.RequestServices
             .GetService<IMediator>();
 

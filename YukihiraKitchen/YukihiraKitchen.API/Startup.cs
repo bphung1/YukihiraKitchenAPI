@@ -60,6 +60,8 @@ namespace YukihiraKitchen.API
 
             app.UseRouting();
 
+            app.UseCors("CorsPolicy");
+
             app.UseAuthorization();
 
             DataSeeding.SeedData(context).Wait();
