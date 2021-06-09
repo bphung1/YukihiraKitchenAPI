@@ -1,8 +1,11 @@
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -15,6 +18,7 @@ using System.Threading.Tasks;
 using YukihiraKitchen.API.Extensions;
 using YukihiraKitchen.API.Middleware;
 using YukihiraKitchen.Application.Recipes;
+using YukihiraKitchen.Domain;
 using YukihiraKitchen.Persistence;
 
 namespace YukihiraKitchen.API
@@ -34,17 +38,23 @@ namespace YukihiraKitchen.API
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers()
+            services.AddControllers(opt =>
+            {
+                var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+
+                opt.Filters.Add(new AuthorizeFilter(policy));
+            })
                 .AddFluentValidation(config =>
                 {
                     config.RegisterValidatorsFromAssemblyContaining<Create>();
                     config.RegisterValidatorsFromAssemblyContaining<AddRecipeIngredient>();
                 });
             services.AddApplicationServices(_config);
+            services.AddIdentityServices(_config);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataContext context)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataContext context, UserManager<AppUser> userManager)
         {
             //custom exception middleware
             app.UseMiddleware<ExceptionMiddleware>();
@@ -62,9 +72,11 @@ namespace YukihiraKitchen.API
 
             app.UseCors("CorsPolicy");
 
+            app.UseAuthentication();
+
             app.UseAuthorization();
 
-            DataSeeding.SeedData(context).Wait();
+            DataSeeding.SeedData(context, userManager).Wait();
 
             app.UseEndpoints(endpoints =>
             {

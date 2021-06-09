@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,12 +10,14 @@ namespace YukihiraKitchen.API.Controllers
 {
     public class RecipesController : BaseAPIController
     {
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetRecipes()
         {
             return HandleResult(await Mediator.Send(new List.Query()));
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")] // recipes/id
         public async Task<IActionResult> GetRecipe(Guid id)
         {
