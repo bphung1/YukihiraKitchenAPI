@@ -44,7 +44,7 @@ namespace YukihiraKitchen.API.Controllers
             return HandleResult(await Mediator.Send(new Edit.Command { Recipe = recipe }));
         }
 
-        [HttpDelete("{id}/removeIngredient")]
+        [HttpDelete("{id}/removeIngredient/{ingredientName}")]
         public async Task<IActionResult> RemoveRecipeIngredient(Guid id, string ingredientName)
         {
             return HandleResult(await Mediator.Send(new RemoveRecipeIngredient.Command { Id = id, IngredientName = ingredientName }));

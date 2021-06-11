@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -41,9 +42,7 @@ namespace YukihiraKitchen.Application.Recipes
             }
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var recipe = await _context.Recipes
-                    .Include(r => r.RecipeIngredients)
-                    .SingleOrDefaultAsync(x => x.Id == request.Recipe.Id);
+                var recipe = await _context.Recipes.FindAsync(request.Recipe.Id);
 
                 if (recipe == null)
                     return null;

@@ -14,7 +14,8 @@ namespace YukihiraKitchen.Application.Core
     {
         public MappingProfile()
         {
-            CreateMap<Recipe, Recipe>();
+            CreateMap<Recipe, Recipe>()
+                .ForMember(d => d.RecipeIngredients, o => o.MapFrom(s => s.RecipeIngredients));
             CreateMap<Recipe, RecipeDto>()
                 .ForMember(d => d.RecipeIngredients, o => o.MapFrom(s => s.RecipeIngredients));
 
