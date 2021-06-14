@@ -19,11 +19,6 @@ namespace YukihiraKitchen.Application.Ingredients
             public Ingredient Ingredient { get; set; }
         }
 
-        public class CommandValidator : AbstractValidator<Command>
-        { 
-        
-        }
-
         public class Handler : IRequestHandler<Command, Result<Unit>>
         {
             private readonly DataContext _context;

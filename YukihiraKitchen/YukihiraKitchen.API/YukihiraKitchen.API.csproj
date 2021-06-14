@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\YukihiraKitchen.Application\YukihiraKitchen.Application.csproj" />
+    <ProjectReference Include="..\YukihiraKitchen.Infrastructure\YukihiraKitchen.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

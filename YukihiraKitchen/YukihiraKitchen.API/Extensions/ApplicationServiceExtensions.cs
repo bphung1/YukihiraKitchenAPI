@@ -8,7 +8,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using YukihiraKitchen.Application.Core;
+using YukihiraKitchen.Application.Interfaces;
 using YukihiraKitchen.Application.Recipes;
+using YukihiraKitchen.Infrastructure.Photos;
 using YukihiraKitchen.Persistence;
 
 namespace YukihiraKitchen.API.Extensions
@@ -42,6 +44,8 @@ namespace YukihiraKitchen.API.Extensions
 
             services.AddMediatR(typeof(List.Handler).Assembly);
             services.AddAutoMapper(typeof(MappingProfile).Assembly);
+            services.AddScoped<IPhotoAccessor, PhotoAccessor>();
+            services.Configure<CloudinarySettings>(config.GetSection("Cloudinary"));
 
             return services;
         }
