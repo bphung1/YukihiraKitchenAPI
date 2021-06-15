@@ -63,7 +63,7 @@ namespace YukihiraKitchen.Application.Photos
 
                 var newPhotoResult = await _context.SaveChangesAsync() > 0;
 
-                if (newPhotoResult) return Result<Photo>.Success(photo);
+                if (newPhotoResult) return Result<Photo>.Success(newPhoto);
 
                 return Result<Photo>.Failure("Problem adding photo");
 
