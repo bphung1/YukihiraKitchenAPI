@@ -21,5 +21,11 @@ namespace YukihiraKitchen.API.Controllers
         {
             return HandleResult(await Mediator.Send(new Delete.Command { Id = id }));
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Replace(IFormFile File, Guid id)
+        {
+            return HandleResult(await Mediator.Send(new Replace.Command { File = File, Id = id }));
+        }
     }
 }

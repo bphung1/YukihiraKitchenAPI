@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,12 +28,18 @@ namespace YukihiraKitchen.Application.Recipes
             }
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var recipe = await _context.Recipes.FindAsync(request.Id);
+                var recipe = await _context.Recipes
+                    .Include(r => r.Photo)
+                    .FirstOrDefaultAsync(x => x.Id == request.Id);
+
+                var photo = recipe.Photo;
 
                 if (recipe == null)
                     return null;
 
                 _context.Remove(recipe);
+
+                if (photo != null) _context.Remove(photo);
 
                 var result = await _context.SaveChangesAsync() > 0;
 
