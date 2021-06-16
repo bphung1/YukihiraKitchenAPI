@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -26,11 +27,13 @@ namespace YukihiraKitchen.Application.Photos
         {
             private readonly DataContext _context;
             private readonly IPhotoAccessor _photoAccessor;
+            private readonly IMapper _mapper;
 
-            public Handler(DataContext context, IPhotoAccessor photoAccessor)
+            public Handler(DataContext context, IPhotoAccessor photoAccessor, IMapper mapper)
             {
                 _context = context;
                 _photoAccessor = photoAccessor;
+                _mapper = mapper;
             }
 
             public async Task<Result<Photo>> Handle(Command request, CancellationToken cancellationToken)
@@ -39,27 +42,28 @@ namespace YukihiraKitchen.Application.Photos
                     .Include(r => r.Photo)
                     .FirstOrDefaultAsync(x => x.Id == request.Id);
 
-                if (recipe == null) return null;
-
                 var photo = recipe.Photo;
 
-                if (photo == null) return null;
+                if (recipe == null || photo == null || request.File == null) return null;
+
+                var tempRecipe = recipe;
 
                 var result = await _photoAccessor.DeletePhoto(photo.Id);
 
                 if (result == null) return Result<Photo>.Failure("Problem deleting photo from Cloudinary");
 
-                _context.Remove(photo);
-
                 var photoUploadResult = await _photoAccessor.AddPhoto(request.File);
 
                 var newPhoto = new Photo
                 {
+                    Recipe = recipe,
                     Url = photoUploadResult.Url,
                     Id = photoUploadResult.PublicId
                 };
 
-                recipe.Photo = newPhoto;
+                tempRecipe.Photo = newPhoto;
+
+                _mapper.Map(tempRecipe, recipe);
 
                 var newPhotoResult = await _context.SaveChangesAsync() > 0;
 

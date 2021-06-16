@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using YukihiraKitchen.Persistence;
 
 namespace YukihiraKitchen.Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210616192922_FixDirectionEntity")]
+    partial class FixDirectionEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -254,16 +256,13 @@ namespace YukihiraKitchen.Persistence.Migrations
 
             modelBuilder.Entity("YukihiraKitchen.Domain.Photo", b =>
                 {
-                    b.Property<Guid>("RecipeId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("RecipeId");
+                    b.HasKey("Id");
 
                     b.ToTable("Photos");
                 });
@@ -280,6 +279,9 @@ namespace YukihiraKitchen.Persistence.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PhotoId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("RecipeName")
                         .HasColumnType("nvarchar(max)");
 
@@ -287,6 +289,8 @@ namespace YukihiraKitchen.Persistence.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PhotoId");
 
                     b.ToTable("Recipes");
                 });
@@ -374,15 +378,13 @@ namespace YukihiraKitchen.Persistence.Migrations
                     b.Navigation("Recipe");
                 });
 
-            modelBuilder.Entity("YukihiraKitchen.Domain.Photo", b =>
+            modelBuilder.Entity("YukihiraKitchen.Domain.Recipe", b =>
                 {
-                    b.HasOne("YukihiraKitchen.Domain.Recipe", "Recipe")
-                        .WithOne("Photo")
-                        .HasForeignKey("YukihiraKitchen.Domain.Photo", "RecipeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("YukihiraKitchen.Domain.Photo", "Photo")
+                        .WithMany()
+                        .HasForeignKey("PhotoId");
 
-                    b.Navigation("Recipe");
+                    b.Navigation("Photo");
                 });
 
             modelBuilder.Entity("YukihiraKitchen.Domain.RecipeIngredient", b =>
@@ -412,8 +414,6 @@ namespace YukihiraKitchen.Persistence.Migrations
             modelBuilder.Entity("YukihiraKitchen.Domain.Recipe", b =>
                 {
                     b.Navigation("Directions");
-
-                    b.Navigation("Photo");
 
                     b.Navigation("RecipeIngredients");
                 });

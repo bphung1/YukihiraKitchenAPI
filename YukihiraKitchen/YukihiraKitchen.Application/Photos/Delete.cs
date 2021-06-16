@@ -32,13 +32,8 @@ namespace YukihiraKitchen.Application.Photos
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var recipe = await _context.Recipes
-                    .Include(r => r.Photo)
-                    .FirstOrDefaultAsync(x => x.Id == request.Id);
-
-                if (recipe == null) return null;
-
-                var photo = recipe.Photo;
+                var photo = await _context.Photos
+                    .FirstOrDefaultAsync(x => x.RecipeId == request.Id);
 
                 if (photo == null) return null;
 
