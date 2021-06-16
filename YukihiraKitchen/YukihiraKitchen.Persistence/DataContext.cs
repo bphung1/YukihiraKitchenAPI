@@ -40,7 +40,8 @@ namespace YukihiraKitchen.Persistence
             builder.Entity<Direction>()
                 .HasOne(d => d.Recipe)
                 .WithMany(r => r.Directions)
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey(d => d.RecipeId);
+
         }
     }
 }
