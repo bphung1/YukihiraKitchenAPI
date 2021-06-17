@@ -8,9 +8,8 @@ namespace YukihiraKitchen.Domain
 {
     public class Direction
     {
-        public int Id { get; set; }
+        public Guid DirectionId { get; set; }
         public Recipe Recipe { get; set; }
-        public Guid RecipeId { get; set; }
         public string CookingDirection { get; set; }
         public int CookingStepNumber { get; set; }
     }

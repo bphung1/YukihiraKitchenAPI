@@ -45,31 +45,23 @@ namespace YukihiraKitchen.Application.Directions
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var recipe = await _context.Recipes
-                    .ProjectTo<Recipe>(_mapper.ConfigurationProvider)
+                    .Include(r => r.Directions)
                     .FirstOrDefaultAsync(x => x.Id == request.RecipeId);
 
                 if (recipe == null) return null;
 
-                var dir = recipe.Directions.Select(x => x.CookingStepNumber == request.Param.StepNumber);
-
-                if (dir.Count() > 0)
+                if (recipe.Directions.Count != 0)
                 {
-                    return Result<Unit>.Failure("Step number already exist");
+                    foreach (var dir in recipe.Directions)
+                    {
+                        if (dir.CookingStepNumber == request.Param.StepNumber)
+                            return Result<Unit>.Failure("Step number already exist");
+                    }
                 }
-
-                //if (recipe.Directions.Count != 0)
-                //{
-                //    foreach (var dir in recipe.Directions)
-                //    {
-                //        if (dir.CookingStepNumber == request.Param.StepNumber)
-                //            return Result<Unit>.Failure("Step number already exist");
-                //    }
-                //}
 
                 var direction = new Direction
                 {
                     Recipe = recipe,
-                    //RecipeId = recipe.Id,
                     CookingStepNumber = request.Param.StepNumber,
                     CookingDirection = request.Param.CookingDirection
                 };

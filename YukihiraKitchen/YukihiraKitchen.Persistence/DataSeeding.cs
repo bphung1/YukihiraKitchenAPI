@@ -27,6 +27,34 @@ namespace YukihiraKitchen.Persistence
 
             if (context.Recipes.Any()) return;
 
+            var ingredients = new List<Ingredient>
+            { 
+                new Ingredient
+                {
+                    IngredientName = "Egg"
+                },
+                new Ingredient
+                {
+                    IngredientName = "Cheese"
+                },
+                new Ingredient
+                {
+                    IngredientName = "Flour"
+                },
+                new Ingredient
+                {
+                    IngredientName = "Tomato sauce"
+                },
+                new Ingredient
+                {
+                    IngredientName = "Ham"
+                },
+                new Ingredient
+                {
+                    IngredientName = "Pineapple"
+                },
+            };
+
             var recipes = new List<Recipe>
             {
                 new Recipe
@@ -95,6 +123,7 @@ namespace YukihiraKitchen.Persistence
             };
 
             await context.Recipes.AddRangeAsync(recipes);
+            await context.Ingredients.AddRangeAsync(ingredients);
             await context.SaveChangesAsync();
         }
     }
