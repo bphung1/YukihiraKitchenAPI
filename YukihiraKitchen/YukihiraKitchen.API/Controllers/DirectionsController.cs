@@ -14,5 +14,11 @@ namespace YukihiraKitchen.API.Controllers
         {
             return HandleResult(await Mediator.Send(new Add.Command { RecipeId = id, Param = param}));
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            return HandleResult(await Mediator.Send(new Delete.Command { Id = id }));
+        }
     }
 }

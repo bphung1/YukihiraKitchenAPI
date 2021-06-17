@@ -16,7 +16,7 @@ namespace YukihiraKitchen.Application.DTOs
         public int Temperature { get; set; }
         public string Photo { get; set; }
 
-        public ICollection<Direction> Directions { get; set; }
+        public ICollection<DirectionDto> Directions { get; set; }
         public ICollection<RecipeIngredientDto> RecipeIngredients { get; set; }
     }
 }
