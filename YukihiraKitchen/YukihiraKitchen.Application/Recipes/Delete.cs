@@ -32,14 +32,10 @@ namespace YukihiraKitchen.Application.Recipes
                     .Include(r => r.Photo)
                     .FirstOrDefaultAsync(x => x.Id == request.Id);
 
-                var photo = recipe.Photo;
-
                 if (recipe == null)
                     return null;
 
                 _context.Remove(recipe);
-
-                if (photo != null) _context.Remove(photo);
 
                 var result = await _context.SaveChangesAsync() > 0;
 
