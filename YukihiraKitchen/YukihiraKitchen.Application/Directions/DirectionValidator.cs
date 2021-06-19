@@ -11,7 +11,7 @@ namespace YukihiraKitchen.Application.Directions
     {
         public DirectionValidator()
         {
-            RuleFor(x => x.StepNumber).NotEmpty();
+            RuleFor(x => x.CookingStepNumber).NotEmpty();
             RuleFor(x => x.CookingDirection).NotEmpty();
         }
     }

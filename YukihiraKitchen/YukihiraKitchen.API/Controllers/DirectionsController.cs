@@ -12,7 +12,7 @@ namespace YukihiraKitchen.API.Controllers
         [HttpPost("{id}")]
         public async Task<IActionResult> Add(Guid id, DirectionParam param)
         {
-            return HandleResult(await Mediator.Send(new Add.Command { RecipeId = id, Param = param}));
+            return HandleResult(await Mediator.Send(new Add.Command { RecipeId = id, Param = param }));
         }
 
         [HttpDelete("{id}")]

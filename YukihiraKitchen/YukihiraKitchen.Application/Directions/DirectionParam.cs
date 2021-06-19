@@ -8,7 +8,7 @@ namespace YukihiraKitchen.Application.Directions
 {
     public class DirectionParam
     {
-        public int StepNumber { get; set; }
+        public int CookingStepNumber { get; set; }
         public string CookingDirection { get; set; }
     }
 }

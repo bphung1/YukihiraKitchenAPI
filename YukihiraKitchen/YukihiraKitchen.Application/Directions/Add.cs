@@ -54,7 +54,7 @@ namespace YukihiraKitchen.Application.Directions
                 {
                     foreach (var dir in recipe.Directions)
                     {
-                        if (dir.CookingStepNumber == request.Param.StepNumber)
+                        if (dir.CookingStepNumber == request.Param.CookingStepNumber)
                             return Result<Unit>.Failure("Step number already exist");
                     }
                 }
@@ -62,7 +62,7 @@ namespace YukihiraKitchen.Application.Directions
                 var direction = new Direction
                 {
                     Recipe = recipe,
-                    CookingStepNumber = request.Param.StepNumber,
+                    CookingStepNumber = request.Param.CookingStepNumber,
                     CookingDirection = request.Param.CookingDirection
                 };
 
