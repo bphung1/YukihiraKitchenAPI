@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace YukihiraKitchen.Domain
+namespace YukihiraKitchen.Application.DTOs
 {
-    public class Direction
+    public class DirectionDto
     {
         public Guid DirectionId { get; set; }
-        public Recipe Recipe { get; set; }
         public string CookingDirection { get; set; }
         public int CookingStepNumber { get; set; }
     }

@@ -37,10 +37,15 @@ namespace YukihiraKitchen.Persistence
                 .WithMany(i => i.RecipeIngredients)
                 .HasForeignKey(ri => ri.IngredientId);
 
-            builder.Entity<Direction>()
-                .HasOne(d => d.Recipe)
-                .WithMany(r => r.Directions)
-                .HasForeignKey(d => d.RecipeId);
+            builder.Entity<Direction>(x => x.HasKey(d => new { d.DirectionId } ));
+
+            builder.Entity<Recipe>()
+                .HasMany(x => x.Directions)
+                .WithOne(x => x.Recipe)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
+            builder.Entity<Photo>(x => x.HasKey(d => new { d.RecipeId }));
 
         }
     }

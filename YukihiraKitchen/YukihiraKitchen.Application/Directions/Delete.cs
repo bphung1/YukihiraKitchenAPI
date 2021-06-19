@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using YukihiraKitchen.Application.Core;
 using YukihiraKitchen.Persistence;
 
-namespace YukihiraKitchen.Application.Recipes
+namespace YukihiraKitchen.Application.Directions
 {
     public class Delete
     {
@@ -26,23 +26,19 @@ namespace YukihiraKitchen.Application.Recipes
             {
                 _context = context;
             }
+
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var recipe = await _context.Recipes
-                    .Include(r => r.Photo)
-                    .FirstOrDefaultAsync(x => x.Id == request.Id);
+                var direction = await _context.Directions
+                    .FindAsync(request.Id);
 
-                if (recipe == null)
-                    return null;
+                if (direction == null) return null;
 
-                _context.Remove(recipe);
+                _context.Remove(direction);
 
                 var result = await _context.SaveChangesAsync() > 0;
 
-                if (!result)
-                    return Result<Unit>.Failure("Failed to delete recipe");
-
-                return Result<Unit>.Success(Unit.Value);
+                return result ? Result<Unit>.Success(Unit.Value) : Result<Unit>.Failure("Problem removing direction");
             }
         }
     }

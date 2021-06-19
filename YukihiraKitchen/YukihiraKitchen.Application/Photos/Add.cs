@@ -47,6 +47,7 @@ namespace YukihiraKitchen.Application.Photos
 
                 var photo = new Photo
                 {
+                    Recipe = recipe,
                     Url = photoUploadResult.Url,
                     Id = photoUploadResult.PublicId
                 };

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using YukihiraKitchen.Persistence;
 
 namespace YukihiraKitchen.Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210616193148_FixPhotoRelation")]
+    partial class FixPhotoRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -220,8 +222,7 @@ namespace YukihiraKitchen.Persistence.Migrations
 
             modelBuilder.Entity("YukihiraKitchen.Domain.Direction", b =>
                 {
-                    b.Property<Guid>("DirectionId")
-                        .ValueGeneratedOnAdd()
+                    b.Property<Guid>("RecipeId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("CookingDirection")
@@ -230,12 +231,10 @@ namespace YukihiraKitchen.Persistence.Migrations
                     b.Property<int>("CookingStepNumber")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("RecipeId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
 
-                    b.HasKey("DirectionId");
-
-                    b.HasIndex("RecipeId");
+                    b.HasKey("RecipeId");
 
                     b.ToTable("Directions");
                 });
@@ -371,7 +370,8 @@ namespace YukihiraKitchen.Persistence.Migrations
                     b.HasOne("YukihiraKitchen.Domain.Recipe", "Recipe")
                         .WithMany("Directions")
                         .HasForeignKey("RecipeId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Recipe");
                 });
