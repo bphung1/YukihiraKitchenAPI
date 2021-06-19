@@ -17,9 +17,12 @@ namespace YukihiraKitchen.Application.Recipes
 {
     public class List
     {
-        public class Query : IRequest<Result<List<RecipeDto>>> { }
+        public class Query : IRequest<Result<PagedList<RecipeDto>>> 
+        {
+            public PagingParams Params { get; set; }
+        }
 
-        public class Handler : IRequestHandler<Query, Result<List<RecipeDto>>>
+        public class Handler : IRequestHandler<Query, Result<PagedList<RecipeDto>>>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
@@ -30,12 +33,13 @@ namespace YukihiraKitchen.Application.Recipes
                 _mapper = mapper;
             }
 
-            public async Task<Result<List<RecipeDto>>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<PagedList<RecipeDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var query = _context.Recipes
+                    .OrderBy(n => n.RecipeName.ToUpper())
                     .ProjectTo<RecipeDto>(_mapper.ConfigurationProvider)
                     .AsQueryable();
-                return Result<List<RecipeDto>>.Success(await query.ToListAsync());
+                return Result<PagedList<RecipeDto>>.Success(await PagedList<RecipeDto>.CreateAsync(query, request.Params.PageNumber, request.Params.PageSize));
             }
         }
     }

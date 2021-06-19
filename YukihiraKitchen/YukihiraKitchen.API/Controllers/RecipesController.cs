@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using YukihiraKitchen.Application.Core;
 using YukihiraKitchen.Application.Recipes;
 using YukihiraKitchen.Domain;
 
@@ -12,9 +13,9 @@ namespace YukihiraKitchen.API.Controllers
     {
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> GetRecipes()
+        public async Task<IActionResult> GetRecipes([FromQuery]PagingParams param)
         {
-            return HandleResult(await Mediator.Send(new List.Query()));
+            return HandlePagedResult(await Mediator.Send(new List.Query { Params = param}));
         }
 
         [AllowAnonymous]
